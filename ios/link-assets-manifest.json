@@ -1,0 +1,21 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Andora.otf",
+      "sha1": "60a723330346ddbb626769168d140161c95afe64"
+    },
+    {
+      "path": "assets/fonts/Modern.ttf",
+      "sha1": "145651fd4c7721472b8d3650a80e6b9d811a8cbc"
+    },
+    {
+      "path": "assets/fonts/NewHorizons.ttf",
+      "sha1": "04c3408518b62f5d4f695cf8e2eef87326f03f34"
+    },
+    {
+      "path": "assets/fonts/Roboto.ttf",
+      "sha1": "a18dcbf99c8d2325c2fbf22a64e8cc28a0cf4d3b"
+    }
+  ]
+}
