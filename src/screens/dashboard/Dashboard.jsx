@@ -23,7 +23,6 @@ import {useTranslate} from '../../utils/translationsUtils';
 const Dashboard = ({navigation: {navigate}}) => {
   const [budget, setBudget] = useState();
   const [goal, setGoal] = useState();
-  const dispatch = useDispatch();
 
   const {expenses, loading: expensesLoading} = useSelector(
     state => state.expenses,
@@ -38,6 +37,7 @@ const Dashboard = ({navigation: {navigate}}) => {
   const {loading: categoriesLoading} = useSelector(state => state.categories);
   const loaderMargin = useLoaderMargin();
 
+  //first time use of the app : modal pop up to enter user name
   useEffect(() => {
     if (isEmpty(name) && !userLoading) {
       alertModal(t('user_data_modal_title'), t('user_data_modal_text'), () => {
@@ -49,6 +49,7 @@ const Dashboard = ({navigation: {navigate}}) => {
     }
   }, [name, userLoading]);
 
+  //set budget and goal after user changes balances
   useEffect(() => {
     if (!isEmpty(balance)) {
       const monthData = balance.find(monthBalance =>

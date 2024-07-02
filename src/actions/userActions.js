@@ -15,6 +15,9 @@ import {areMonthsAndYearIdentical} from '../utils/timeUtils';
 import {loadCategories} from './categoriesActions';
 import {isValidJSON} from '../utils/stringUtils';
 
+//use of local storage to save et retrive data with the help
+//of '@react-native-async-storage/async-storage' package
+
 const getBalanceDataIndex = (balance, selectedMonth) => {
   return balance.findIndex(monthBalance =>
     areMonthsAndYearIdentical(

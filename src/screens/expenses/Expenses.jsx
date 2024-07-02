@@ -14,7 +14,7 @@ import {
 } from '../../utils/expensesUtils';
 import {expensesStyle} from './Expenses.style';
 import moment from 'moment';
-import {isArray} from 'lodash';
+import {isArray, isNumber} from 'lodash';
 import {getCategoryId, getCategoryName} from '../../utils/categoriesUtils';
 import {isArrayEmpty} from '../../utils/arrayUtils';
 import {useLoaderMargin} from '../../utils/screenUtils';
@@ -43,7 +43,7 @@ const Expenses = ({navigation, route}) => {
       );
       let expensesData = Object.keys(groupedExpensesByCatgeoryId).reduce(
         (acc, categoryId) => {
-          if (selectedCategoryId && selectedCategoryId != categoryId)
+          if (isNumber(selectedCategoryId) && selectedCategoryId != categoryId)
             return acc;
           const expenses = groupedExpensesByCatgeoryId[categoryId].sort(
             (a, b) => b.amount - a.amount,
@@ -60,6 +60,8 @@ const Expenses = ({navigation, route}) => {
     }
   }, [expenses, selectedMonth, selectedCategoryId, categories]);
 
+  // reset the category when 'blur' event is triggered
+  //that means the screen loses focus, meaning the user navigated away from this screen to another one.
   useEffect(() => {
     navigation.addListener('blur', () => {
       navigation.setParams({category: undefined});

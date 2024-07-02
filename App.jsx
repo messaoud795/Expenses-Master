@@ -32,6 +32,7 @@ function App() {
   const t = useTranslate();
   const dispatch = useDispatch();
 
+  //get saved data from local storage
   useEffect(() => {
     dispatch(getUserSavedData());
     dispatch(loadExpenses());
