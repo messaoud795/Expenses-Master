@@ -43,4 +43,7 @@ export const en = {
   stats_period: 'Last 6 Months',
   user_data_modal_title: 'User Data',
   user_data_modal_text: 'Please enter your name and your currency',
+  logout: 'logout',
+  top_expenses_last_3_months: 'Top expense of the last 3 months',
+  get_recommendations_to_reduce_it: 'Get recommendations to reduce it',
 };

@@ -2,6 +2,7 @@ import {
   CATEGORY_ACTION_ERROR,
   CATEGORY_ACTION_REQUEST,
   DELETE_CATEGORY_SUCCESS,
+  LOAD_CATEGORIES_ERROR,
   LOAD_CATEGORIES_SUCCESS,
   SET_CATEGORY_SUCCESS,
 } from '../constants/categoriesConstants';
@@ -10,11 +11,8 @@ import store from '../store/store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {LOAD_EXPENSES_SUCCESS} from '../constants/expensesConstants';
 import {isArrayEmpty} from '../utils/arrayUtils';
-import {
-  areCategoriesDefault,
-  formatInitialCategories,
-} from '../utils/categoriesUtils';
-import {isValidJSON} from '../utils/stringUtils';
+import axios from 'axios';
+import {requestConfig} from './requestConfig';
 
 export const removeCategory = categoryToDelete => {
   return async dispatch => {
@@ -80,33 +78,22 @@ export const editCategory = (newCategory, isEditMode) => {
   };
 };
 
-export const loadCategories = language => {
+export const loadCategories = () => {
   return async dispatch => {
     try {
       dispatch({type: CATEGORY_ACTION_REQUEST});
-      const savedCategories = await AsyncStorage.getItem('categories');
-      let categories = isValidJSON(savedCategories)
-        ? JSON.parse(savedCategories)
-        : [];
-      if (
-        isArrayEmpty(categories) ||
-        (!isArrayEmpty(categories) && areCategoriesDefault(categories))
-      ) {
-        const initialCategories = formatInitialCategories(language);
-        categories = initialCategories;
-        await AsyncStorage.setItem(
-          'categories',
-          JSON.stringify(initialCategories),
-        );
-      }
 
+      const res = await axios.get(
+        `${process.env.BACKEND_URL}/api/categories`,
+        await requestConfig(),
+      );
       dispatch({
         type: LOAD_CATEGORIES_SUCCESS,
-        payload: categories,
+        payload: res.data,
       });
     } catch (error) {
       console.log({error});
-      dispatch({type: CATEGORY_ACTION_ERROR, payload: error});
+      dispatch({type: LOAD_CATEGORIES_ERROR, payload: error});
     }
   };
 };

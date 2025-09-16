@@ -6,7 +6,9 @@ export const getCategoryName = categoryId => {
   const {
     categories: {categories},
   } = store.getState();
-  const foundCategory = categories?.find(category => category.id == categoryId);
+  const foundCategory = categories?.find(
+    category => category._id == categoryId,
+  );
   return foundCategory?.name;
 };
 

@@ -1,0 +1,7 @@
+export const TIP_ACTION_REQUEST = 'TIP_ACTION_REQUEST';
+
+export const GET_TIP_SUCCESS = 'GET_TIP_SUCCESS';
+export const GET_TIP_ERROR = 'GET_TIP_ERROR';
+
+export const LOAD_TIPS_SUCCESS = 'LOAD_TIPS_SUCCESS';
+export const LOAD_TIPS_ERROR = 'LOAD_TIPS_ERROR';

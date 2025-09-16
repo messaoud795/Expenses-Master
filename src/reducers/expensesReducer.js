@@ -50,14 +50,14 @@ export const expensesReducer = (
         ...state,
         loading: false,
         error: null,
-        expenses: payload,
+        expenses: [...state.expenses, payload],
       };
     case DELETE_EXPENSE_SUCCESS:
       return {
         ...state,
         loading: false,
         error: null,
-        expenses: payload,
+        expenses: state.expenses.filter(expense => expense.id !== payload),
       };
     default:
       return state;

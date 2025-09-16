@@ -42,4 +42,4 @@ const Languages = () => {
   );
 };
 
-export default React.memo(Languages, arePropsEqual);
+export default Languages;

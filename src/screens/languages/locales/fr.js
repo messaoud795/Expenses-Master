@@ -43,4 +43,5 @@ export const fr = {
   stats_period: '6 derniers mois',
   user_data_modal_title: 'Info utilisateur',
   user_data_modal_text: 'Entrez SVP votre nom et votre devise',
+  logout: 'déconnexion',
 };

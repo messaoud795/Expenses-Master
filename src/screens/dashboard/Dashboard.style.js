@@ -33,11 +33,10 @@ export const dashboardStyle = StyleSheet.create({
     letterSpacing: 0.8,
   },
   kpisContainer: {
-    display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: 7,
+    justifyContent: 'center', // center the items
+    gap: 10,
   },
   empty_expenses_msg: {
     fontSize: 16,

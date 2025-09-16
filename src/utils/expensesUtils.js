@@ -1,7 +1,6 @@
 import {clone, isArray} from 'lodash';
 import {areMonthsAndYearIdentical} from './timeUtils';
 
-//get expenses of selected month
 export const getExpensesOfSelectedMonth = (expenses, date) => {
   if (!isArray(expenses)) return;
   return expenses?.filter(expense =>

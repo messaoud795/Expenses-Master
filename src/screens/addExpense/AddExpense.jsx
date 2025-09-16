@@ -47,7 +47,7 @@ const AddExpense = ({navigation: {navigate}, route}) => {
   const lastLabel = t('add_new_category');
   const emptyForm = {
     name: '',
-    categoryId: categories[0]?.id,
+    categoryId: categories?.[0]?._id || '',
     amount: '',
     date: initialDate,
   };
@@ -62,6 +62,12 @@ const AddExpense = ({navigation: {navigate}, route}) => {
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  // useEffect(() => {
+  //   if (categories.length && !newExpense.categoryId) {
+  //     setNewExpense(exp => ({...exp, categoryId: categories[0]._id}));
+  //   }
+  // }, [categories]);
 
   useEffect(() => {
     if (newExpense.categoryId === lastLabel) {
@@ -116,7 +122,7 @@ const AddExpense = ({navigation: {navigate}, route}) => {
     setError({name: '', amount: ''});
     if (isEditMode) dispatch(editExpense(newExpense));
     else {
-      dispatch(createExpense({id: generateUniqueId(), ...newExpense}));
+      dispatch(createExpense(newExpense));
     }
     setNewExpense(emptyForm);
     setIsRedirectedToCategories(false);
@@ -181,9 +187,9 @@ const AddExpense = ({navigation: {navigate}, route}) => {
                 }>
                 {categories.map(category => (
                   <Picker.Item
-                    key={category.id}
+                    key={category._id}
                     label={capitalize(category.name)}
-                    value={category.id}
+                    value={category._id}
                   />
                 ))}
                 <Picker.Item

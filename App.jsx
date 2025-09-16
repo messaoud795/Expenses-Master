@@ -17,7 +17,6 @@ import SetCategory from './src/screens/setCategory/SetCategory';
 import Budget from './src/screens/budget/Budget';
 import Goal from './src/screens/goal/Goal';
 import MonthSelector from './src/components/monthSelector/MonthSelector';
-import Languages from './src/screens/languages/Languages';
 import {useTranslate} from './src/utils/translationsUtils';
 import {arePropsEqual} from './src/utils/screenUtils';
 import React, {useEffect} from 'react';
@@ -26,17 +25,25 @@ import {getUserSavedData} from './src/actions/userActions';
 import {loadExpenses} from './src/actions/expensesActions';
 import {loadCategories} from './src/actions/categoriesActions';
 import {screenHeaderStyle, appStyle} from './App.style';
+import SignIn from './src/screens/auth/signIn/SignIn';
+import SignUp from './src/screens/auth/signUp/SignUp';
+import ResetPasswordScreen from './src/screens/auth/resetPasswordScreen/ResetPasswordScreen';
+import SendRecoveryEmail from './src/screens/auth/sendRecoveryEmail/SendRecoveryEmail';
+import Languages from './src/screens/languages/Languages.jsx';
+import {getToken} from './src/reducers/userReducer';
+import {LOAD_TOKEN_SUCCESS} from './src/constants/authConstants';
 
 function App() {
-  const {language} = useSelector(state => state.user);
+  const {language, authenticated} = useSelector(state => state.user);
+
   const t = useTranslate();
   const dispatch = useDispatch();
 
   //get saved data from local storage
   useEffect(() => {
     dispatch(getUserSavedData());
-    dispatch(loadExpenses());
     dispatch(loadCategories(language));
+    dispatch(loadExpenses());
   }, []);
 
   const BottomTabs = createBottomTabNavigator();
@@ -85,99 +92,146 @@ function App() {
     </Stack.Navigator>
   );
 
+  const AuthStack = () => (
+    <Stack.Navigator screenOptions={screenHeaderStyle}>
+      <Stack.Screen
+        name="SignIn"
+        component={SignIn}
+        options={{title: 'Sign In'}}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{title: 'Sign Up'}}
+      />
+      <Stack.Screen
+        name="Reset Password"
+        component={ResetPasswordScreen}
+        options={{title: 'Reset Password'}}
+      />
+      <Stack.Screen
+        name="Send Recovery Email"
+        component={SendRecoveryEmail}
+        options={{title: 'Send Recovery Email'}}
+      />
+    </Stack.Navigator>
+  );
+
+  useEffect(() => {
+    (async () => {
+      const credentials = await getToken();
+      if (credentials) {
+        dispatch({
+          type: LOAD_TOKEN_SUCCESS,
+          payload: credentials,
+        });
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (authenticated) {
+      dispatch(loadCategories());
+    }
+  }, [authenticated]);
+
   return (
     <>
       <StatusBar style="light" hidden={false} />
       <NavigationContainer>
-        <BottomTabs.Navigator
-          screenOptions={{
-            ...screenHeaderStyle,
-            paddingHorizontal: 10,
-            tabBarStyle: appStyle.tabBar,
-          }}>
-          <BottomTabs.Screen
-            name="DashboardStack"
-            component={DashboardStack}
-            options={({navigation}) => ({
-              title: t('dashboard'),
-              tabBarLabel: t('dashboard'),
-              headerShown: false,
-              tabBarIcon: () => (
-                <FontAwesomeIcon
-                  name="dashboard"
-                  size={30}
-                  color={navigation.isFocused() ? '#000' : '#fff'}
-                />
-              ),
-            })}
-          />
-          <BottomTabs.Screen
-            name={t('expenses')}
-            component={Expenses}
-            options={({navigation}) => ({
-              title: t('expenses'),
-              tabBarLabel: t('expenses'),
-              headerRight: () => (
-                <View style={{paddingRight: 15}}>
-                  <MonthSelector />
-                </View>
-              ),
-              tabBarIcon: () => (
-                <FontAwesomeIcon
-                  name="list-ul"
-                  size={30}
-                  color={navigation.isFocused() ? '#000' : '#fff'}
-                />
-              ),
-            })}
-          />
-          <BottomTabs.Screen
-            name={t('add_expense')}
-            component={AddExpense}
-            options={({route}) => ({
-              tabBarLabelStyle: {color: 'transparent'},
-              title: route?.params?.expense
-                ? t('edit_expense')
-                : t('add_new_expense'),
-              tabBarIcon: () => (
-                <View style={appStyle.addBtn}>
-                  <FontAwesomeIcon name="plus" size={35} color={'#fff'} />
-                </View>
-              ),
-            })}
-          />
-          <BottomTabs.Screen
-            name={t('statistics')}
-            component={Statistics}
-            options={({navigation}) => ({
-              title: t('statistics'),
-              tabBarLabel: t('statistics'),
-              tabBarIcon: () => (
-                <MaterialCommunityIcon
-                  name="google-analytics"
-                  size={30}
-                  color={navigation.isFocused() ? '#000' : '#fff'}
-                />
-              ),
-            })}
-          />
-          <BottomTabs.Screen
-            name="Settings Stack"
-            component={SettingsStack}
-            options={({navigation}) => ({
-              title: t('settings'),
-              tabBarLabel: t('settings'),
-              headerShown: false,
-              tabBarIcon: () => (
-                <Ionicon
-                  name="settings"
-                  size={35}
-                  color={navigation.isFocused() ? '#000' : 'white'}
-                />
-              ),
-            })}
-          />
-        </BottomTabs.Navigator>
+        {!authenticated ? (
+          <AuthStack />
+        ) : (
+          <BottomTabs.Navigator
+            screenOptions={{
+              ...screenHeaderStyle,
+              paddingHorizontal: 10,
+              tabBarStyle: appStyle.tabBar,
+            }}>
+            <BottomTabs.Screen
+              name="DashboardStack"
+              component={DashboardStack}
+              options={({navigation}) => ({
+                title: t('dashboard'),
+                tabBarLabel: t('dashboard'),
+                headerShown: false,
+                tabBarIcon: () => (
+                  <FontAwesomeIcon
+                    name="dashboard"
+                    size={30}
+                    color={navigation.isFocused() ? '#000' : '#fff'}
+                  />
+                ),
+              })}
+            />
+            <BottomTabs.Screen
+              name={t('expenses')}
+              component={Expenses}
+              options={({navigation}) => ({
+                title: t('expenses'),
+                tabBarLabel: t('expenses'),
+                headerRight: () => (
+                  <View style={{paddingRight: 15}}>
+                    <MonthSelector />
+                  </View>
+                ),
+                tabBarIcon: () => (
+                  <FontAwesomeIcon
+                    name="list-ul"
+                    size={30}
+                    color={navigation.isFocused() ? '#000' : '#fff'}
+                  />
+                ),
+              })}
+            />
+            <BottomTabs.Screen
+              name={t('add_expense')}
+              component={AddExpense}
+              options={({route}) => ({
+                tabBarLabelStyle: {color: 'transparent'},
+                title: route?.params?.expense
+                  ? t('edit_expense')
+                  : t('add_new_expense'),
+                tabBarIcon: () => (
+                  <View style={appStyle.addBtn}>
+                    <FontAwesomeIcon name="plus" size={35} color={'#fff'} />
+                  </View>
+                ),
+              })}
+            />
+            <BottomTabs.Screen
+              name={t('statistics')}
+              component={Statistics}
+              options={({navigation}) => ({
+                title: t('statistics'),
+                tabBarLabel: t('statistics'),
+                tabBarIcon: () => (
+                  <MaterialCommunityIcon
+                    name="google-analytics"
+                    size={30}
+                    color={navigation.isFocused() ? '#000' : '#fff'}
+                  />
+                ),
+              })}
+            />
+            <BottomTabs.Screen
+              name="Settings Stack"
+              component={SettingsStack}
+              options={({navigation}) => ({
+                title: t('settings'),
+                tabBarLabel: t('settings'),
+                headerShown: false,
+                tabBarIcon: () => (
+                  <Ionicon
+                    name="settings"
+                    size={35}
+                    color={navigation.isFocused() ? '#000' : 'white'}
+                  />
+                ),
+              })}
+            />
+          </BottomTabs.Navigator>
+        )}
       </NavigationContainer>
     </>
   );

@@ -29,6 +29,7 @@ const Expenses = ({navigation, route}) => {
   const selectedCategoryId = route?.params?.category;
   const loaderMargin = useLoaderMargin();
   const t = useTranslate();
+  console.log({selectedCategoryId});
   useEffect(() => {
     if (isArrayEmpty(expenses)) setData([]);
     else {

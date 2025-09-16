@@ -45,4 +45,5 @@ export const de = {
   stats_period: 'Letzte 6 Monate',
   user_data_modal_title: 'Benutzerdaten',
   user_data_modal_text: 'Bitte geben Sie Ihren Namen und Ihre Währung ein',
+  logout: 'ausloggen',
 };

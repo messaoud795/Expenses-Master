@@ -3,21 +3,21 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import {settingsStyle} from './Settings.style';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import EntypoIcon from 'react-native-vector-icons/Entypo';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import {useTranslate} from '../../utils/translationsUtils';
+import {useDispatch} from 'react-redux';
+import {logoutUser} from '../../actions/authActions';
 
 const Settings = ({navigation: {navigate}}) => {
   const t = useTranslate();
+  const dispatch = useDispatch();
+
+  const logoutHandle = () => {
+    dispatch(logoutUser());
+  };
 
   return (
     <View style={settingsStyle.container}>
-      <TouchableOpacity
-        style={settingsStyle.option}
-        onPress={() => navigate(t('user_name'))}>
-        <EntypoIcon name="user" size={26} color={'#1D5D9B'} />
-        <Text style={settingsStyle.text}>{t('user_name')}</Text>
-      </TouchableOpacity>
       <TouchableOpacity
         style={settingsStyle.option}
         onPress={() => navigate('Categories Stack')}>
@@ -39,6 +39,10 @@ const Settings = ({navigation: {navigate}}) => {
         onPress={() => navigate(t('languages'))}>
         <FontAwesomeIcon name="language" size={26} color={'#1D5D9B'} />
         <Text style={settingsStyle.text}>{t('languages')}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={settingsStyle.option} onPress={logoutHandle}>
+        <MaterialIcon name="logout" size={26} color={'#1D5D9B'} />
+        <Text style={settingsStyle.text}>{t('logout')}</Text>
       </TouchableOpacity>
     </View>
   );

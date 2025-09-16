@@ -1,4 +1,4 @@
-const {StyleSheet, Dimensions} = require('react-native');
+const {StyleSheet} = require('react-native');
 
 export const kpiStyle = StyleSheet.create({
   kpiContainer: {
@@ -8,16 +8,16 @@ export const kpiStyle = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 12,
     borderRadius: 8,
-    minWidth: 100,
+    minWidth: 200,
     gap: 5,
     elevation: 5,
     opacity: 0.9,
-    width: '100%',
+    width: '48%',
+    minWidth: 160,
   },
   clickable_container: {
     alignItems: 'center',
     gap: 15,
-    width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
   },

@@ -13,16 +13,15 @@ import {capitalize, isEmpty} from 'lodash';
 import {areMonthsAndYearIdentical} from '../../utils/timeUtils';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import FoundationIcon from 'react-native-vector-icons/Foundation';
-import {
-  alertModal,
-  arePropsEqual,
-  useLoaderMargin,
-} from '../../utils/screenUtils';
+import {arePropsEqual, useLoaderMargin} from '../../utils/screenUtils';
 import {useTranslate} from '../../utils/translationsUtils';
+import {getGoal} from '../../actions/goalActions';
+import moment from 'moment';
 
 const Dashboard = ({navigation: {navigate}}) => {
   const [budget, setBudget] = useState();
-  const [goal, setGoal] = useState();
+  const goal = useSelector(state => state.goal);
+  const dispatch = useDispatch();
 
   const {expenses, loading: expensesLoading} = useSelector(
     state => state.expenses,
@@ -37,26 +36,17 @@ const Dashboard = ({navigation: {navigate}}) => {
   const {loading: categoriesLoading} = useSelector(state => state.categories);
   const loaderMargin = useLoaderMargin();
 
-  //first time use of the app : modal pop up to enter user name
-  useEffect(() => {
-    if (isEmpty(name) && !userLoading) {
-      alertModal(t('user_data_modal_title'), t('user_data_modal_text'), () => {
-        navigate('Settings Stack', {
-          screen: t('user_name'),
-          params: {config: true},
-        });
-      });
-    }
-  }, [name, userLoading]);
-
   //set budget and goal after user changes balances
   useEffect(() => {
+    const month = moment(selectedMonth).month() + 1; // months are 0-based in JS
+    const year = moment(selectedMonth).year();
+
+    dispatch(getGoal(month, year));
     if (!isEmpty(balance)) {
       const monthData = balance.find(monthBalance =>
         areMonthsAndYearIdentical(new Date(monthBalance.date), selectedMonth),
       );
       setBudget(monthData?.budget);
-      setGoal(monthData?.goal);
     }
   }, [selectedMonth, balance]);
 
@@ -123,7 +113,7 @@ const Dashboard = ({navigation: {navigate}}) => {
                 />
                 <KPI
                   title={t('goal')}
-                  value={goal}
+                  value={goal?.target}
                   onPress={handleGoalKPIClick}
                   leftColor={'#f7f443'}
                   rightColor={'#fcf803'}
