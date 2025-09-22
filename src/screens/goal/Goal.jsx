@@ -10,11 +10,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {addExpenseStyle} from '../addExpense/AddExpense.style';
 import {useTranslate} from '../../utils/translationsUtils';
 import moment from 'moment';
-import {createGoal} from '../../actions/goalActions';
+import {createGoal, editGoal} from '../../actions/goalActions';
 
-const Goal = ({navigation: {navigate}, route}) => {
-  const goal = route?.params?.goal;
-  const [newGoal, setNewGoal] = useState(goal);
+const Goal = ({navigation: {navigate}}) => {
+  const goal = useSelector(state => state.goal);
+  const [newGoal, setNewGoal] = useState(goal?.target);
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const t = useTranslate();
@@ -24,8 +24,8 @@ const Goal = ({navigation: {navigate}, route}) => {
     if (newGoal.length < 1) return setError(t('enter_goal'));
     const month = moment(selectedMonth).month() + 1; // months are 0-based in JS
     const year = moment(selectedMonth).year();
-
-    dispatch(createGoal(Number(newGoal), month, year));
+    if (goal?._id) dispatch(editGoal(goal?._id, Number(newGoal)));
+    else dispatch(createGoal(Number(newGoal), month, year));
     setError('');
     navigate(t('dashboard'));
   };

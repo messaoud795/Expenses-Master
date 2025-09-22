@@ -1,5 +1,5 @@
 import {View, Text, ActivityIndicator} from 'react-native';
-import React, {useEffect, useMemo, useState, useLayoutEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {dashboardStyle} from './Dashboard.style';
 import KPI from '../../components/KPI/KPI';
 import {useDispatch, useSelector} from 'react-redux';
@@ -10,17 +10,18 @@ import {
   getExpensesTotal,
 } from '../../utils/expensesUtils';
 import {capitalize, isEmpty} from 'lodash';
-import {areMonthsAndYearIdentical} from '../../utils/timeUtils';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import FoundationIcon from 'react-native-vector-icons/Foundation';
 import {arePropsEqual, useLoaderMargin} from '../../utils/screenUtils';
 import {useTranslate} from '../../utils/translationsUtils';
 import {getGoal} from '../../actions/goalActions';
 import moment from 'moment';
+import {getBudget} from '../../actions/budgetActions';
 
 const Dashboard = ({navigation: {navigate}}) => {
-  const [budget, setBudget] = useState();
   const goal = useSelector(state => state.goal);
+  const budget = useSelector(state => state.budget);
+
   const dispatch = useDispatch();
 
   const {expenses, loading: expensesLoading} = useSelector(
@@ -42,12 +43,7 @@ const Dashboard = ({navigation: {navigate}}) => {
     const year = moment(selectedMonth).year();
 
     dispatch(getGoal(month, year));
-    if (!isEmpty(balance)) {
-      const monthData = balance.find(monthBalance =>
-        areMonthsAndYearIdentical(new Date(monthBalance.date), selectedMonth),
-      );
-      setBudget(monthData?.budget);
-    }
+    dispatch(getBudget(month, year));
   }, [selectedMonth, balance]);
 
   const expensesOfSelectedMonth = useMemo(
@@ -89,7 +85,7 @@ const Dashboard = ({navigation: {navigate}}) => {
               <View style={dashboardStyle.kpisContainer}>
                 <KPI
                   title={t('budget')}
-                  value={budget}
+                  value={budget?.amount}
                   onPress={handleBudgetKPIClick}
                   leftColor={'#7bfa3c'}
                   rightColor={'#52f502'}

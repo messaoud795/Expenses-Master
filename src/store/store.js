@@ -5,6 +5,7 @@ import {categoriesReducer} from '../reducers/categoriesReducer';
 import {userReducer} from '../reducers/userReducer';
 import {tipsReducer} from '../reducers/tipsReducer';
 import {goalReducer} from '../reducers/goalsReducer';
+import {budgetReducer} from '../reducers/budgetsReducer';
 
 const reducer = combineReducers({
   expenses: expensesReducer,
@@ -12,6 +13,7 @@ const reducer = combineReducers({
   user: userReducer,
   tips: tipsReducer,
   goal: goalReducer,
+  budget: budgetReducer,
 });
 
 let initialState = {};

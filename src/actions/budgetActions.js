@@ -1,29 +1,31 @@
 import axios from 'axios';
 import {requestConfig} from './requestConfig';
 import {
-  CREATE_GOAL_ERROR,
-  CREATE_GOAL_SUCCESS,
-  GET_GOAL_ERROR,
-  GET_GOAL_SUCCESS,
-  GOAL_ACTION_REQUEST,
-  UPDATE_GOAL_SUCCESS,
-} from '../constants/goalsConstants';
+  BUDGET_ACTION_REQUEST,
+  CREATE_BUDGET_ERROR,
+  CREATE_BUDGET_SUCCESS,
+  GET_BUDGET_ERROR,
+  GET_BUDGET_SUCCESS,
+  UPDATE_BUDGET_ERROR,
+  UPDATE_BUDGET_SUCCESS,
+} from '../constants/budgetsConstants';
 
 // CREATE a goal
-export const createGoal = (target, month, year) => {
+export const createBudget = (amount, month, year) => {
   return async dispatch => {
     try {
-      dispatch({type: GOAL_ACTION_REQUEST});
+      dispatch({type: BUDGET_ACTION_REQUEST});
 
       const res = await axios.post(
-        `${process.env.BACKEND_URL}/api/goals`,
-        {target, month, year},
+        `${process.env.BACKEND_URL}/api/budgets`,
+        {amount, month, year},
         await requestConfig(),
       );
-      dispatch({type: CREATE_GOAL_SUCCESS, payload: res.data});
+
+      dispatch({type: CREATE_BUDGET_SUCCESS, payload: res.data});
     } catch (error) {
       dispatch({
-        type: CREATE_GOAL_ERROR,
+        type: CREATE_BUDGET_ERROR,
         payload:
           error.response && error.response.data
             ? error.response.data
@@ -33,22 +35,21 @@ export const createGoal = (target, month, year) => {
   };
 };
 
-// EDIT a goal
-export const editGoal = (goalId, target) => {
+export const editBudget = (budgetId, target) => {
   return async dispatch => {
     try {
-      dispatch({type: GOAL_ACTION_REQUEST});
+      dispatch({type: BUDGET_ACTION_REQUEST});
 
       const res = await axios.put(
-        `${process.env.BACKEND_URL}/api/goals/${goalId}`,
+        `${process.env.BACKEND_URL}/api/budgets/${budgetId}`,
         {target},
         await requestConfig(),
       );
 
-      dispatch({type: UPDATE_GOAL_SUCCESS, payload: res.data});
+      dispatch({type: UPDATE_BUDGET_SUCCESS, payload: res.data});
     } catch (error) {
       dispatch({
-        type: CREATE_GOAL_ERROR,
+        type: UPDATE_BUDGET_ERROR,
         payload:
           error.response && error.response.data
             ? error.response.data
@@ -58,24 +59,23 @@ export const editGoal = (goalId, target) => {
   };
 };
 
-// GET a goal by month/year
-export const getGoal = (month, year) => {
+export const getBudget = (month, year) => {
   return async dispatch => {
     try {
-      dispatch({type: GOAL_ACTION_REQUEST});
+      dispatch({type: BUDGET_ACTION_REQUEST});
 
       const res = await axios.get(
-        `${process.env.BACKEND_URL}/api/goals?month=${month}&year=${year}`,
+        `${process.env.BACKEND_URL}/api/budgets?month=${month}&year=${year}`,
         await requestConfig(),
       );
       dispatch({
-        type: GET_GOAL_SUCCESS,
+        type: GET_BUDGET_SUCCESS,
         payload: res.data,
       });
     } catch (error) {
       console.log({error});
       dispatch({
-        type: GET_GOAL_ERROR,
+        type: GET_BUDGET_ERROR,
         payload:
           error.response && error.response.data
             ? error.response.data
