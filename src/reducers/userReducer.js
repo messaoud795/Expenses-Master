@@ -1,5 +1,6 @@
 import {
   CHANGE_MONTH_SUCCESS,
+  LOAD_USERDATA_ERROR,
   LOAD_USERDATA_SUCCESS,
   SET_BUDGET_SUCCESS,
   SET_CURRENCY_SUCCESS,
@@ -42,6 +43,7 @@ export const userReducer = (
   state = {
     name: '',
     currency: '',
+    country: '',
     balance: [],
     selectedMonth: new Date(),
     language: localLanguage,
@@ -65,10 +67,19 @@ export const userReducer = (
     case LOAD_USERDATA_SUCCESS:
       return {
         ...state,
-        ...payload,
+        name: payload.user.name,
+        country: payload.user.country,
+        currency: payload.user.currency,
         loading: false,
         error: null,
         selectedMonth: new Date(),
+      };
+
+    case LOAD_USERDATA_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
       };
     case CHANGE_MONTH_SUCCESS:
       return {
@@ -99,6 +110,8 @@ export const userReducer = (
         ...state,
         authenticated: true,
         name: payload.user.name,
+        country: payload.user.country,
+        currency: payload.user.currency,
       };
     case LOGIN_SUCCESS:
       saveToken(payload.token, payload.user.name);
@@ -106,6 +119,8 @@ export const userReducer = (
         ...state,
         authenticated: true,
         name: payload.user.name,
+        country: payload.user.country,
+        currency: payload.user.currency,
         token: payload.token,
       };
     case LOAD_TOKEN_SUCCESS:

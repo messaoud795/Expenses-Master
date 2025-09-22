@@ -13,7 +13,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 const Statistics = () => {
   const {expenses} = useSelector(state => state.expenses);
   const {tips} = useSelector(state => state.tips);
-  const {currency} = useSelector(state => state.user);
+  const {currency, country} = useSelector(state => state.user);
 
   const t = useTranslate();
   const dispatch = useDispatch();
@@ -24,7 +24,9 @@ const Statistics = () => {
 
   const getRecommendationForTopExpense = () => {
     if (!isEmpty(topExpense))
-      dispatch(getTip({expense: topExpense, currency, expenseDuration: 3}));
+      dispatch(
+        getTip({expense: topExpense, currency, expenseDuration: 3, country}),
+      );
   };
 
   useEffect(() => {

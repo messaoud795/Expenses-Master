@@ -13,7 +13,8 @@ import store from '../store/store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {areMonthsAndYearIdentical} from '../utils/timeUtils';
 import {loadCategories} from './categoriesActions';
-import {isValidJSON} from '../utils/stringUtils';
+import {requestConfig} from './requestConfig';
+import axios from 'axios';
 
 //use of local storage to save et retrive data with the help
 //of '@react-native-async-storage/async-storage' package
@@ -58,13 +59,21 @@ export const addCurrency = newCurrency => {
 export const getUserSavedData = () => {
   return async dispatch => {
     try {
-      const savedData = await AsyncStorage.getItem('user');
-      const user = isValidJSON(savedData) ? JSON.parse(savedData) : {};
+      const res = await axios.get(
+        `${process.env.BACKEND_URL}/api/me`,
+        requestConfig(),
+      );
       dispatch({
         type: LOAD_USERDATA_SUCCESS,
-        payload: user,
+        payload: res.data,
       });
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+      dispatch({
+        type: LOAD_USERDATA_SUCCESS,
+        payload: error,
+      });
+    }
   };
 };
 

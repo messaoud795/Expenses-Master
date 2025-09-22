@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
 import {registerUser} from '../../../actions/authActions';
 import {signUpStyle} from './SignUp.style';
+import {countries} from './SingUp.constants';
 
 const SignUp = ({navigation}) => {
   const dispatch = useDispatch();
@@ -11,6 +13,7 @@ const SignUp = ({navigation}) => {
     name: '',
     email: '',
     password: '',
+    country: '',
   });
 
   const handleChange = (key, value) => {
@@ -18,6 +21,10 @@ const SignUp = ({navigation}) => {
   };
 
   const handleSubmit = () => {
+    if (!formData.country) {
+      alert('Please select your country');
+      return;
+    }
     dispatch(registerUser(formData));
   };
 
@@ -51,6 +58,17 @@ const SignUp = ({navigation}) => {
         onChangeText={text => handleChange('password', text)}
         secureTextEntry
       />
+
+      {/* Country Picker */}
+      <Picker
+        selectedValue={formData.country}
+        style={signUpStyle.input}
+        onValueChange={itemValue => handleChange('country', itemValue)}>
+        <Picker.Item label="Select Country" value="" />
+        {countries.map((country, index) => (
+          <Picker.Item key={index} label={country} value={country} />
+        ))}
+      </Picker>
 
       <TouchableOpacity style={signUpStyle.button} onPress={handleSubmit}>
         <Text style={signUpStyle.buttonText}>Sign Up</Text>

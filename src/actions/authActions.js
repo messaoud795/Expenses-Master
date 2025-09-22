@@ -10,13 +10,14 @@ import {
 import {removeToken} from '../reducers/userReducer';
 
 export const registerUser =
-  ({name, email, password}) =>
+  ({name, email, password, country}) =>
   async dispatch => {
     try {
       const res = await axios.post(`${process.env.BACKEND_URL}/api/register`, {
         name,
         email,
         password,
+        country,
       });
 
       dispatch({
