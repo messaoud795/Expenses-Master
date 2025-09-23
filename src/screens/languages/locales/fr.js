@@ -44,4 +44,5 @@ export const fr = {
   user_data_modal_title: 'Info utilisateur',
   user_data_modal_text: 'Entrez SVP votre nom et votre devise',
   logout: 'déconnexion',
+  country: 'Pays',
 };

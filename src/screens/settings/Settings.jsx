@@ -26,13 +26,9 @@ const Settings = ({navigation: {navigate}}) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={settingsStyle.option}
-        onPress={() => navigate(t('currency'))}>
-        <MaterialCommunityIcon
-          name="currency-usd"
-          size={26}
-          color={'#1D5D9B'}
-        />
-        <Text style={settingsStyle.text}>{t('currency')}</Text>
+        onPress={() => navigate(t('country'))}>
+        <MaterialCommunityIcon name="flag" size={26} color={'#1D5D9B'} />
+        <Text style={settingsStyle.text}>{t('country')}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={settingsStyle.option}

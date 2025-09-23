@@ -3,20 +3,20 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {addExpenseStyle} from '../addExpense/AddExpense.style';
-import {addCurrency} from '../../actions/userActions';
-import {currencies} from '../../constants/currenciesConstants';
 import {Picker} from '@react-native-picker/picker';
 import {useTranslate} from '../../utils/translationsUtils';
 import {CommonActions, useNavigation} from '@react-navigation/native';
-const SetCurrency = ({navigation: {navigate}}) => {
-  const {currency} = useSelector(state => state.user);
+import {countries} from '../auth/signUp/SingUp.constants';
+import {updateCountry} from '../../actions/userActions';
+const SetCountry = ({navigation: {navigate}}) => {
+  const {country} = useSelector(state => state.user);
   const t = useTranslate();
-  const [newCurrency, setNewCurrency] = useState(currency);
+  const [newCountry, setNewCountry] = useState(country);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const createNewCurrency = () => {
-    dispatch(addCurrency(newCurrency));
+    dispatch(updateCountry(newCountry));
     navigate(t('dashboard'));
     navigation.dispatch(
       CommonActions.reset({
@@ -36,14 +36,10 @@ const SetCurrency = ({navigation: {navigate}}) => {
           <Picker
             itemStyle={addExpenseStyle.input}
             style={addExpenseStyle.input}
-            selectedValue={newCurrency}
-            onValueChange={itemValue => setNewCurrency(itemValue)}>
-            {currencies.sort().map(currencyAbreviation => (
-              <Picker.Item
-                key={currencyAbreviation}
-                label={currencyAbreviation}
-                value={currencyAbreviation}
-              />
+            selectedValue={newCountry}
+            onValueChange={itemValue => setNewCountry(itemValue)}>
+            {countries.sort().map(country => (
+              <Picker.Item key={country} label={country} value={country} />
             ))}
           </Picker>
         </View>
@@ -65,4 +61,4 @@ const SetCurrency = ({navigation: {navigate}}) => {
   );
 };
 
-export default SetCurrency;
+export default SetCountry;

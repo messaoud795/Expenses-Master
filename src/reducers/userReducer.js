@@ -3,9 +3,9 @@ import {
   LOAD_USERDATA_ERROR,
   LOAD_USERDATA_SUCCESS,
   SET_BUDGET_SUCCESS,
-  SET_CURRENCY_SUCCESS,
   SET_GOAL_SUCCESS,
   SET_LANGUAGE_SUCCESS,
+  UPDATE_COUNTRY_SUCCESS,
   USER_ACTION_ERROR,
   USER_ACTION_REQUEST,
 } from '../constants/userConstants';
@@ -60,8 +60,14 @@ export const userReducer = (
       return {...state, loading: true, error: null};
     case USER_ACTION_ERROR:
       return {...state, loading: false, error: payload};
-    case SET_CURRENCY_SUCCESS:
-      return {...state, loading: false, error: null, currency: payload};
+    case UPDATE_COUNTRY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        country: payload.user.country,
+        currency: payload.user.currency,
+      };
     case SET_LANGUAGE_SUCCESS:
       return {...state, loading: false, error: null, language: payload};
     case LOAD_USERDATA_SUCCESS:

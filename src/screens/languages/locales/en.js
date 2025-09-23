@@ -46,4 +46,5 @@ export const en = {
   logout: 'logout',
   top_expenses_last_3_months: 'Top expense of the last 3 months',
   get_recommendations_to_reduce_it: 'Get recommendations to reduce it',
+  country: 'Country',
 };

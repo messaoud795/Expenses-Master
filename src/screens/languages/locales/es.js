@@ -44,4 +44,5 @@ export const es = {
   user_data_modal_title: 'Datos del usuario',
   user_data_modal_text: 'Por favor introduce tu nombre y tu moneda',
   logout: 'cerrar sesión',
+  country: 'País',
 };

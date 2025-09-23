@@ -2,10 +2,11 @@ import {
   CHANGE_MONTH_SUCCESS,
   LOAD_USERDATA_SUCCESS,
   SET_BUDGET_SUCCESS,
-  SET_CURRENCY_SUCCESS,
   SET_GOAL_SUCCESS,
   SET_LANGUAGE_SUCCESS,
   SET_USERNAME_SUCCESS,
+  UPDATE_COUNTRY_ERROR,
+  UPDATE_COUNTRY_SUCCESS,
   USER_ACTION_ERROR,
   USER_ACTION_REQUEST,
 } from '../constants/userConstants';
@@ -42,16 +43,21 @@ export const setUserName = newName => {
   };
 };
 
-export const addCurrency = newCurrency => {
+export const updateCountry = country => {
   return async dispatch => {
     try {
       dispatch({type: USER_ACTION_REQUEST});
-      const {user} = store?.getState();
-      const addedData = {...user, currency: newCurrency};
-      await AsyncStorage.setItem('user', JSON.stringify(addedData));
-      dispatch({type: SET_CURRENCY_SUCCESS, payload: newCurrency});
+      const res = await axios.put(
+        `${process.env.BACKEND_URL}/api/me/update`,
+        {country},
+        requestConfig(),
+      );
+      dispatch({
+        type: UPDATE_COUNTRY_SUCCESS,
+        payload: res.data,
+      });
     } catch (error) {
-      dispatch({type: USER_ACTION_ERROR, payload: error});
+      dispatch({type: UPDATE_COUNTRY_ERROR, payload: error});
     }
   };
 };

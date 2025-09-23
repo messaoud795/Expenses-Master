@@ -46,4 +46,5 @@ export const de = {
   user_data_modal_title: 'Benutzerdaten',
   user_data_modal_text: 'Bitte geben Sie Ihren Namen und Ihre Währung ein',
   logout: 'ausloggen',
+  country: 'Land',
 };

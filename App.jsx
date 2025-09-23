@@ -12,7 +12,7 @@ import Expenses from './src/screens/expenses/Expenses';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import AddUserName from './src/screens/addUserName/AddUserName';
 import Categories from './src/screens/categories/Categories';
-import SetCurrency from './src/screens/setCurrency/SetCurrency';
+import SetCurrency from './src/screens/setCountry/SetCountry';
 import SetCategory from './src/screens/setCategory/SetCategory';
 import Budget from './src/screens/budget/Budget';
 import Goal from './src/screens/goal/Goal';
@@ -87,7 +87,7 @@ function App() {
           headerShown: false,
         }}
       />
-      <Stack.Screen name={t('currency')} component={SetCurrency} />
+      <Stack.Screen name={t('country')} component={SetCurrency} />
       <Stack.Screen name={t('languages')} component={Languages} />
     </Stack.Navigator>
   );
