@@ -45,4 +45,20 @@ export const fr = {
   user_data_modal_text: 'Entrez SVP votre nom et votre devise',
   logout: 'déconnexion',
   country: 'Pays',
+  profits: 'Bénéfices',
+  recommendations: 'Recommandations',
+  top_expenses_last_3_months: 'Principales dépenses des 3 derniers mois',
+  get_recommendations_to_reduce_it:
+    'Obtenir des recommandations pour les réduire',
+  min_expenses_needed:
+    'Minimum de 2 dépenses requises pour utiliser cette fonctionnalité',
+  expense_name: 'Nom de la dépense',
+  expense_period: 'Période de la dépense',
+  expense_total: 'Total des dépenses',
+  investment: 'Investissement',
+  profit: 'Bénéfice',
+  time_to_profit: 'Délai de rentabilité',
+  months: 'mois',
+  update_recommendations_to_reduce_it:
+    'Mettre à jour les recommandations pour les réduire',
 };

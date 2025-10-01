@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   getExpensesOfSelectedMonth,
   getExpensesTotal,
@@ -19,6 +19,8 @@ import {getCategoryId, getCategoryName} from '../../utils/categoriesUtils';
 import {isArrayEmpty} from '../../utils/arrayUtils';
 import {useLoaderMargin} from '../../utils/screenUtils';
 import {useTranslate} from '../../utils/translationsUtils';
+import {loadExpenses} from '../../actions/expensesActions';
+import {formatDateToMonth} from '../../utils/timeUtils';
 
 const Expenses = ({navigation, route}) => {
   const {navigate} = navigation;
@@ -29,7 +31,14 @@ const Expenses = ({navigation, route}) => {
   const selectedCategoryId = route?.params?.category;
   const loaderMargin = useLoaderMargin();
   const t = useTranslate();
-  console.log({selectedCategoryId});
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const startMonth = formatDateToMonth(selectedMonth);
+    const endMonth = startMonth;
+    dispatch(loadExpenses(startMonth, endMonth));
+  }, [selectedMonth]);
+
   useEffect(() => {
     if (isArrayEmpty(expenses)) setData([]);
     else {

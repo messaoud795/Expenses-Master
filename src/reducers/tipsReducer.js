@@ -34,7 +34,6 @@ export const tipsReducer = (
         ...state,
         loading: false,
         error: null,
-        tips: [...state.tips, payload],
       };
 
     case LOAD_TIPS_SUCCESS:

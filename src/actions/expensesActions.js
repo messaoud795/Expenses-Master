@@ -59,12 +59,12 @@ export const deleteExpense = expenseId => {
   };
 };
 
-export const loadExpenses = () => {
+export const loadExpenses = (startMonth, endMonth) => {
   return async dispatch => {
     try {
       dispatch({type: EXPENSE_ACTION_REQUEST});
       const res = await axios.get(
-        `${process.env.BACKEND_URL}/api/expenses`,
+        `${process.env.BACKEND_URL}/api/expenses?startMonth=${startMonth}&endMonth=${endMonth}`,
         await requestConfig(),
       );
       dispatch({type: LOAD_EXPENSES_SUCCESS, payload: res.data});

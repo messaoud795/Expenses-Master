@@ -3,7 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import Dashboard from './src/screens/dashboard/Dashboard';
 import {View, StatusBar} from 'react-native';
 import Settings from './src/screens/settings/Settings';
-import Statistics from './src/screens/statistics/Statistics';
+import Profits from './src/screens/profits/Profits';
 import AddExpense from './src/screens/addExpense/AddExpense';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -22,7 +22,6 @@ import {arePropsEqual} from './src/utils/screenUtils';
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getUserSavedData} from './src/actions/userActions';
-import {loadExpenses} from './src/actions/expensesActions';
 import {loadCategories} from './src/actions/categoriesActions';
 import {screenHeaderStyle, appStyle} from './App.style';
 import SignIn from './src/screens/auth/signIn/SignIn';
@@ -39,11 +38,9 @@ function App() {
   const t = useTranslate();
   const dispatch = useDispatch();
 
-  //get saved data from local storage
   useEffect(() => {
     dispatch(getUserSavedData());
     dispatch(loadCategories(language));
-    dispatch(loadExpenses());
   }, []);
 
   const BottomTabs = createBottomTabNavigator();
@@ -200,11 +197,11 @@ function App() {
               })}
             />
             <BottomTabs.Screen
-              name={t('statistics')}
-              component={Statistics}
+              name={t('profits')}
+              component={Profits}
               options={({navigation}) => ({
-                title: t('statistics'),
-                tabBarLabel: t('statistics'),
+                title: t('profits'),
+                tabBarLabel: t('profits'),
                 tabBarIcon: () => (
                   <MaterialCommunityIcon
                     name="google-analytics"

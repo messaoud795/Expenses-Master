@@ -47,4 +47,20 @@ export const de = {
   user_data_modal_text: 'Bitte geben Sie Ihren Namen und Ihre Währung ein',
   logout: 'ausloggen',
   country: 'Land',
+  profits: 'Gewinne',
+  recommendations: 'Empfehlungen',
+  top_expenses_last_3_months: 'Höchste Ausgaben der letzten 3 Monate',
+  get_recommendations_to_reduce_it:
+    'Empfehlungen zur Kostenreduzierung erhalten',
+  min_expenses_needed:
+    'Mindestens 2 Ausgaben erforderlich, um diese Funktion zu nutzen',
+  expense_name: 'Ausgabenname',
+  expense_period: 'Ausgabenzeitraum',
+  expense_total: 'Gesamtausgaben',
+  investment: 'Investition',
+  profit: 'Gewinn',
+  time_to_profit: 'Zeit bis zum Gewinn',
+  months: 'Monat(e)',
+  update_recommendations_to_reduce_it:
+    'Empfehlungen zur Kostenreduzierung aktualisieren',
 };

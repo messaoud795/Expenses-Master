@@ -2,8 +2,6 @@ import {
   CHANGE_MONTH_SUCCESS,
   LOAD_USERDATA_ERROR,
   LOAD_USERDATA_SUCCESS,
-  SET_BUDGET_SUCCESS,
-  SET_GOAL_SUCCESS,
   SET_LANGUAGE_SUCCESS,
   UPDATE_COUNTRY_SUCCESS,
   USER_ACTION_ERROR,
@@ -93,22 +91,6 @@ export const userReducer = (
         loading: false,
         error: null,
         selectedMonth: new Date(payload),
-      };
-    case SET_BUDGET_SUCCESS:
-      return {
-        ...state,
-        ...payload,
-        loading: false,
-        error: null,
-        selectedMonth: new Date(payload?.selectedMonth),
-      };
-    case SET_GOAL_SUCCESS:
-      return {
-        ...state,
-        ...payload,
-        loading: false,
-        error: null,
-        selectedMonth: new Date(payload?.selectedMonth),
       };
     case REGISTER_SUCCESS:
       saveToken(payload.token, payload.user.name);

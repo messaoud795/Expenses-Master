@@ -45,4 +45,18 @@ export const es = {
   user_data_modal_text: 'Por favor introduce tu nombre y tu moneda',
   logout: 'cerrar sesión',
   country: 'País',
+  profits: 'Ganancias',
+  recommendations: 'Recomendaciones',
+  top_expenses_last_3_months: 'Principales gastos de los últimos 3 meses',
+  get_recommendations_to_reduce_it: 'Obtén recomendaciones para reducirlo',
+  min_expenses_needed: 'Se necesitan al menos 2 gastos para usar esta función',
+  expense_name: 'Nombre del gasto',
+  expense_period: 'Periodo del gasto',
+  expense_total: 'Total del gasto',
+  investment: 'Inversión',
+  profit: 'Beneficio',
+  time_to_profit: 'Tiempo para obtener beneficios',
+  months: 'Mes(s)',
+  update_recommendations_to_reduce_it:
+    'Actualiza las recomendaciones para reducirlo',
 };

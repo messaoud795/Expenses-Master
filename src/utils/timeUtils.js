@@ -1,5 +1,6 @@
 import {isDate} from 'lodash';
 import moment from 'moment';
+import {DATE_FORMATS} from '../constants/generalConstants';
 
 function getMonthNameFromIndex(monthIndex) {
   if (monthIndex >= 0 && monthIndex < 12) {
@@ -28,4 +29,15 @@ export const areMonthsAndYearIdentical = (date1, date2) => {
       date1?.getFullYear() === date2?.getFullYear()
     );
   } else return false;
+};
+
+export const getDateMinusTwoMonths = dateString => {
+  return moment(dateString)
+    .subtract(2, 'months')
+    .format(DATE_FORMATS.FULL_DATE);
+};
+
+export const formatDateToMonth = dateString => {
+  const date = moment(dateString);
+  return date.format(DATE_FORMATS.MONTH_YEAR);
 };

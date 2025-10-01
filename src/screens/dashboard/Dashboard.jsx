@@ -17,6 +17,9 @@ import {useTranslate} from '../../utils/translationsUtils';
 import {getGoal} from '../../actions/goalActions';
 import moment from 'moment';
 import {getBudget} from '../../actions/budgetActions';
+import BalanceChart from '../../components/charts/balanceChart/BalanceChart';
+import {loadExpenses} from '../../actions/expensesActions';
+import {formatDateToMonth} from '../../utils/timeUtils';
 
 const Dashboard = ({navigation: {navigate}}) => {
   const goal = useSelector(state => state.goal);
@@ -29,7 +32,6 @@ const Dashboard = ({navigation: {navigate}}) => {
   );
   const {
     name,
-    balance,
     selectedMonth,
     loading: userLoading,
   } = useSelector(state => state.user);
@@ -37,14 +39,17 @@ const Dashboard = ({navigation: {navigate}}) => {
   const {loading: categoriesLoading} = useSelector(state => state.categories);
   const loaderMargin = useLoaderMargin();
 
-  //set budget and goal after user changes balances
   useEffect(() => {
-    const month = moment(selectedMonth).month() + 1; // months are 0-based in JS
+    const month = moment(selectedMonth).month() + 1;
     const year = moment(selectedMonth).year();
 
     dispatch(getGoal(month, year));
     dispatch(getBudget(month, year));
-  }, [selectedMonth, balance]);
+
+    const startMonth = formatDateToMonth(selectedMonth);
+    const endMonth = startMonth;
+    dispatch(loadExpenses(startMonth, endMonth));
+  }, [selectedMonth]);
 
   const expensesOfSelectedMonth = useMemo(
     () => getExpensesOfSelectedMonth(expenses, selectedMonth),
@@ -139,6 +144,9 @@ const Dashboard = ({navigation: {navigate}}) => {
             )}
           </>
         )}
+        <View>
+          <BalanceChart />
+        </View>
       </ScrollView>
     </View>
   );
